@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # Symfony Backend
+  backend:
+    build:
+      context: ./backend
+    container_name: symfony_backend
+    volumes:
+      - ./backend/symfony_app:/var/www/symfony
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+    container_name: react_frontend
+    volumes:
+      - ./frontend/react_app:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  db:
+    image: mysql:5.7
+    #a tam wersja mysql:8
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: symfony_db
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
