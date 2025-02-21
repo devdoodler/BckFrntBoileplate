@@ -1,17 +1,17 @@
 # Use Node.js official image
-FROM node:18-alpine
+FROM node:22-alpine
 
 # Set working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json (or yarn.lock)
-COPY package*.json ./
+COPY react_app/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy the rest of the app files
-COPY . .
+COPY ./react_app .
 
 # Build React app for production
 RUN npm run build

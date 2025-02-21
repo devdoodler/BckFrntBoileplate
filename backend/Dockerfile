@@ -10,24 +10,30 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     unzip \
     git \
+    nginx \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql zip \
     && apt-get clean
 
 # Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+#COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Set working directory
 WORKDIR /var/www/symfony
 
 # Copy Symfony app files into the container
-COPY . /var/www/symfony
+COPY ./symfony_app /var/www/symfony
 
 # Install Symfony dependencies
 RUN composer install
 
-# Expose port
-EXPOSE 9000
+# Copy the Nginx configuration file to the container
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Command to run the Symfony app
-CMD ["php-fpm"]
+# Expose port for Nginx
+EXPOSE 80
+
+# Start both PHP-FPM and Nginx
+CMD service nginx start && php-fpm
+
