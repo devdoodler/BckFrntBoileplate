@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Symfony Backend
   backend:
@@ -9,7 +7,7 @@ services:
     volumes:
       - ./backend/symfony_app:/var/www/symfony
     ports:
-      - "9000:9000"  # Expose port 9000 to the host
+      - "9001:9000"  # Expose port 9000 to the host
     depends_on:
       - db
     networks:
@@ -45,7 +43,6 @@ services:
 
   db:
     image: mysql:8
-    #a tam wersja mysql:8
     container_name: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword

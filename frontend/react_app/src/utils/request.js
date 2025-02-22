@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const baseUrl= 'http://localhost:9000';
+const baseURL= 'http://localhost:80';
 
 const request = axios.create({
-   baseUrl,
+   baseURL,
 });
 
 export default request;
