@@ -2,6 +2,10 @@
 
 <p align="center">This is boilerplate for application where backend is made in Symfony and frontend in ReactJS</p>
 
+Currently front is running on `localhost:3000`. You can make request to backend api to `localhost`.  
+`localhost:3000` should give a result: `Messege from frontend => Message from backend`  
+`localhost` (there is route '/'): `Message from backend`
+
 ## About
 
 `Symfony` in version 7.2  
